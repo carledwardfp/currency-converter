@@ -1,6 +1,6 @@
 # Currency Converter App
 
-Author: **[@official-carledwardp]('https://github.com/official-carledwardfp')**\
+Author: **[@official-carledwardp](https://github.com/official-carledwardfp)**\
 Live app: **[currency-converter-carledwardfp.vercel.app](currency-converter-carledwardfp.vercel.app)**\
 Last updated on: **Oct 3, 2021 8:00PM (+08:00)**
 
