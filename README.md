@@ -68,7 +68,13 @@ _Documentation for the options can be found [here](https://swr.vercel.app/docs/o
 
 ### Styling
 
-CSS Framework used: _Chakra UI_ <sup>[4]</sup>
+CSS Framework used: _Chakra UI_ <sup>[4]</sup>\
+Responsive and supports both light and dark mode. Just click the gear icon at the bottom to toggle color mode.
+
+![Dark Desktop](https://github.com/official-carledwardfp/currency-converter/blob/develop/public/images/dark-desktop.png?raw=true)
+![Light Desktop](https://github.com/official-carledwardfp/currency-converter/blob/develop/public/images/light-desktop.png?raw=true)
+![Dark Mobile](https://github.com/official-carledwardfp/currency-converter/blob/develop/public/images/dark-mobile.png?raw=true)
+![Light Mobile](https://github.com/official-carledwardfp/currency-converter/blob/develop/public/images/light-mobile.png?raw=true)
 
 ---
 
