@@ -88,7 +88,7 @@ These limitations can be overcome either by upgrading the plan or by finding ano
 <sup>[1]</sup> [_ISO 4217 Three Letter Currency Code_](https://www.iso.org/iso-4217-currency-codes.html)\
 <sup>[2]</sup> [_Next.JS_](https://nextjs.org)\
 <sup>[3]</sup> [_SWR_](https://swr.vercel.app)\
-<sup>[4]</sup> [ChakraUI](https://chakra-ui.com/docs/getting-started)
+<sup>[4]</sup> [_ChakraUI_](https://chakra-ui.com/docs/getting-started)
 
 ---
 
