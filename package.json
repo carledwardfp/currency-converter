@@ -1,4 +1,5 @@
 {
+  "author": "Carl Edward <official.carlpahuyo@gmail.com>",
   "name": "currency-converter",
   "version": "0.1.0",
   "private": true,
@@ -9,9 +10,18 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@chakra-ui/icons": "^1.0.15",
+    "@chakra-ui/react": "^1.6.8",
+    "@emotion/react": "^11",
+    "@emotion/styled": "^11",
+    "axios": "^0.22.0",
+    "framer-motion": "^4",
+    "lodash": "^4.17.21",
+    "moment": "^2.29.1",
     "next": "11.1.2",
     "react": "17.0.2",
-    "react-dom": "17.0.2"
+    "react-dom": "17.0.2",
+    "swr": "^1.0.1"
   },
   "devDependencies": {
     "eslint": "7.32.0",
