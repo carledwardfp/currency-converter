@@ -5,9 +5,9 @@ Last updated on: **Oct 3, 2021 8:00PM (+08:00)**
 
 ## Description
 
-This is the first challenge from our new and upcoming [Discord server](https://discord.gg/rergxXQfu2). This app will be used to convert 200+ supported currencies from one to another. The "Currency Code" field (ex. USD) follows the standard _ISO 4217 Three Letter Currency Code_<sup>[1]</sup>. This ensures clarity and reduces errors in any exchange activities.
+This is the first challenge from our new and upcoming [Discord server](https://discord.gg/rergxXQfu2). This app will be used to convert 200+ supported currencies from one to another. The "Currency Code" field (ex. USD) follows the standard _ISO 4217 Three Letter Currency Code_ <sup>[1]</sup>. This ensures clarity and reduces errors in any exchange activities.
 
-The app is a _Next.JS_<sup>[2]</sup> project which utilizes the **SSR** (Server Side Rendering) feature and uses the third-party data fetching service, _SWR_<sup>[3]</sup> (_Fun Fact! The developers of NextJS also made this service_). This makes sure that data will always be available whenever you use this app.
+The app is a _Next.JS_ <sup>[2]</sup> project which utilizes the **SSR** (Server Side Rendering) feature and uses the third-party data fetching service, _SWR_ <sup>[3]</sup> (_Fun Fact! The developers of NextJS also made this service_). This makes sure that data will always be available whenever you use this app.
 
 ---
 
@@ -15,13 +15,59 @@ The app is a _Next.JS_<sup>[2]</sup> project which utilizes the **SSR** (Server 
 
 To run:
 
+1. Clone repository
+
 ```bash
-git clone add-git-here
+git clone https://github.com/official-carledwardfp/currency-converter.git
+```
 
-cd currency-converter
+2. Run project
 
+```bash
+cd ~path-to/currency-converter
 yarn dev
 ```
+
+A great feature of Nextjs, Server Side Props. This ensures that you will have the currency options on load:
+
+```js
+export async function getServerSideProps() {
+  let response = await api().get(`api-end-point`)
+
+  return {
+    props: {
+      currencies: response.currencies || [],
+    },
+  }
+}
+```
+
+The use case of SWR in this project is to cache data and make sure that the app will not have duplicate api calls:
+
+```js
+const { data } = useSWR(`/api-end-point`)
+```
+
+SWR Global config:\
+_Documentation for the options can be found [here](https://swr.vercel.app/docs/options)_
+
+```js
+<SWRConfig
+  value={{
+    fetcher: (url) => fetch(url).then((response) => response.json()),
+    revalidateOnFocus: false, // Do not revalidate on window refocus
+    dedupingInterval: 1000 * 60 * 60 * 24, // 1 day
+    onError: errorCallback, // Callback function if there are errors
+    errorRetryCount: 2, // Retry limit
+  }}
+>
+  {children}
+</SWRConfig>
+```
+
+### Styling
+
+CSS Framework used: _Chakra UI_ <sup>[4]</sup>
 
 ---
 
@@ -39,8 +85,9 @@ These limitations can be overcome either by upgrading the plan or by finding ano
 ## References
 
 <sup>[1]</sup> [_ISO 4217 Three Letter Currency Code_](https://www.iso.org/iso-4217-currency-codes.html)\
-<sup>[2]</sup> [_Next.JS_](https://nextjs.org/)\
-<sup>[3]</sup> [_SWR_](https://swr.vercel.app/)
+<sup>[2]</sup> [_Next.JS_](https://nextjs.org)\
+<sup>[3]</sup> [_SWR_](https://swr.vercel.app)\
+<sup>[4]</sup> [ChakraUI](https://chakra-ui.com/docs/getting-started)
 
 ---
 
@@ -75,7 +122,7 @@ Back-End:
 <a href="https://www.mongodb.com/" target="_blank"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/mongodb/mongodb-original-wordmark.svg" alt="mongodb" width="40" height="40"/> </a>
 <a href="https://www.mysql.com/" target="_blank"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/mysql/mysql-original-wordmark.svg" alt="mysql" width="40" height="40"/> </a>
 
-Tools:
+Tools I Use:
 
 <a href="https://www.photoshop.com/en" target="_blank"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/photoshop/photoshop-line.svg" alt="photoshop" width="40" height="40"/> </a>
 <a href="https://postman.com" target="_blank"> <img src="https://www.vectorlogo.zone/logos/getpostman/getpostman-icon.svg" alt="postman" width="40" height="40"/> </a>
