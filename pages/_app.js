@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { ChakraProvider, createStandaloneToast } from "@chakra-ui/react"
 import { SWRConfig } from "swr"
-import { api } from "services/api"
+import { api } from "@/services/api"
 import theme from "styles/theme"
 
 function MyApp({ Component, pageProps }) {

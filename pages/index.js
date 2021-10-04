@@ -19,14 +19,14 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react"
 import { UpDownIcon } from "@chakra-ui/icons"
-import { convert, getDate } from "services/utils"
+import { convert, getDate } from "@/services/utils"
 
-import { api } from "services/api"
-import Footer from "components/Footer"
-import MyNumberInput from "components/NumberInput"
-import SelectInput from "components/SelectInput"
-import Nav from "components/Nav"
-import ApiInfo from "components/ApiInfo"
+import { api } from "@/services/api"
+import Footer from "@/components/Footer"
+import MyNumberInput from "@/components/NumberInput"
+import SelectInput from "@/components/SelectInput"
+import Nav from "@/components/Nav"
+import ApiInfo from "@/components/ApiInfo"
 
 export async function getServerSideProps() {
   let response = await api().get(

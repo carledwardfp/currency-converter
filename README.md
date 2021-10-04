@@ -26,7 +26,7 @@ git clone https://github.com/official-carledwardfp/currency-converter.git
 
 ```bash
 cd ~path-to/currency-converter
-yarn dev
+npm run dev
 ```
 
 A great feature of Nextjs, Server Side Props. This ensures that you will have the currency options on load:
