@@ -21,39 +21,64 @@ import {
 import { UpDownIcon } from "@chakra-ui/icons"
 import { convert, getDate } from "services/utils"
 
-import { api } from "services/api"
 import Footer from "components/Footer"
 import MyNumberInput from "components/NumberInput"
 import SelectInput from "components/ReactSelect"
 import Nav from "components/Nav"
 import ApiInfo from "components/ApiInfo"
 
-export async function getServerSideProps() {
-  let response = await api().get(
-    `/v6/${process.env.NEXT_PUBLIC_API_KEY}/latest/USD`
-  )
+import { api } from "services/api"
+import currencyData from "lib/currencies.json"
+
+const API_KEY = process.env.NEXT_PUBLIC_API_KEY
+
+export async function getServerSideProps({ query }) {
+  const response = await api().get(`/v6/${API_KEY}/latest/USD`)
   let currencies = _.keys(response.data.conversion_rates).sort()
-  let currencyOptions = currencies.map((currency) => ({
-    label: currency,
-    value: currency,
-  }))
+  let currencyOptions = currencies.map((currency) => {
+    let defaultCurrency = currencyData.find(
+      (data) => data.AlphabeticCode === currency
+    )
+    return {
+      label: `${currency}${
+        defaultCurrency?.Currency ? ` (${defaultCurrency.Currency})` : ""
+      }`, // format as ex. PHP (Philippine Peso)
+      value: currency.toLowerCase(),
+    }
+  })
   return {
     props: {
       currencies: currencyOptions || [],
+      defaultCurrencyCode: query.defaultCurrencyCode,
     },
   }
 }
 
-export default function Home({ currencies }) {
+export default function Home({ currencies, defaultCurrencyCode }) {
   const { colorMode } = useColorMode()
   const initialRef = useRef(null)
 
-  const [firstCurrency, setFirstCurrency] = useState("USD")
-  const [secondCurrency, setSecondCurrency] = useState("PHP")
+  const [firstCurrency, setFirstCurrency] = useState({
+    label: "USD (US Dollar)",
+    value: "usd",
+  })
+
+  const defaultCurrency = currencyData.find(
+    (data) => data.AlphabeticCode === defaultCurrencyCode
+  )
+
+  const [secondCurrency, setSecondCurrency] = useState({
+    label: `${defaultCurrencyCode}${
+      defaultCurrency?.Currency ? ` (${defaultCurrency.Currency})` : ""
+    }`,
+    value: defaultCurrencyCode.toLowerCase(),
+  })
+
   const [firstCurrencyValue, setFirstCurrencyValue] = useState(1)
   const [secondCurrencyValue, setSecondCurrencyValue] = useState("")
+
   const { data: firstCurrencyData } = useSWR(
-    `/v6/${process.env.NEXT_PUBLIC_API_KEY}/latest/${firstCurrency}`
+    `/v6/${API_KEY}latest/${firstCurrency.value.toUpperCase()}`
   )
   const [conversionRates, setConversionRates] = useState(
     firstCurrencyData?.conversion_rates
@@ -65,7 +90,9 @@ export default function Home({ currencies }) {
     setSecondCurrencyValue(
       convert(
         firstCurrencyValue,
-        firstCurrencyData?.conversion_rates?.[secondCurrency]
+        firstCurrencyData?.conversion_rates?.[
+          secondCurrency.value.toUpperCase()
+        ]
       )
     )
   }, [firstCurrencyData])
@@ -76,16 +103,17 @@ export default function Home({ currencies }) {
 
   const handleValueChange = (value, conversionRates) => {
     setFirstCurrencyValue(value)
-    setSecondCurrencyValue(convert(value, conversionRates?.[secondCurrency]))
+    setSecondCurrencyValue(
+      convert(value, conversionRates?.[secondCurrency.value.toUpperCase()])
+    )
   }
 
-  const handleCurrencyChange = (event, callback) => {
-    let newCurrency = event.target.value
-    callback(newCurrency)
+  const handleCurrencyChange = ({ event, action }, callback) => {
+    callback(event)
 
-    if (event.target.name === "secondCurrency") {
+    if (action.name === "secondCurrency") {
       setSecondCurrencyValue(
-        convert(firstCurrencyValue, conversionRates[newCurrency])
+        convert(firstCurrencyValue, conversionRates[event.value.toUpperCase()])
       )
     }
   }
@@ -147,8 +175,8 @@ export default function Home({ currencies }) {
                 options={currencies}
                 value={firstCurrency}
                 name="firstCurrency"
-                handleChange={(event) =>
-                  handleCurrencyChange(event, setFirstCurrency)
+                handleChange={(event, action) =>
+                  handleCurrencyChange({ event, action }, setFirstCurrency)
                 }
                 isFullWidth
               />
@@ -168,8 +196,8 @@ export default function Home({ currencies }) {
                 options={currencies}
                 value={secondCurrency}
                 name="secondCurrency"
-                handleChange={(event) =>
-                  handleCurrencyChange(event, setSecondCurrency)
+                handleChange={(event, action) =>
+                  handleCurrencyChange({ event, action }, setSecondCurrency)
                 }
               />
             </Box>
@@ -186,12 +214,15 @@ export default function Home({ currencies }) {
               >
                 <Skeleton isLoaded={firstCurrencyData}>
                   <StatLabel mb={"2px"}>
-                    {firstCurrencyValue} {firstCurrency} =
+                    {firstCurrencyValue} {firstCurrency.label} =
                   </StatLabel>
                 </Skeleton>
                 <Skeleton isLoaded={firstCurrencyData}>
                   <StatNumber fontSize="3xl" mb={"2px"}>
-                    {secondCurrencyValue} {secondCurrency}
+                    {secondCurrencyValue} {secondCurrency.label}{" "}
+                    <span
+                      className={`currency-flag currency-flag-${secondCurrency.value}`}
+                    />
                   </StatNumber>
                 </Skeleton>
                 <Skeleton isLoaded={firstCurrencyData}>
@@ -215,7 +246,6 @@ export default function Home({ currencies }) {
           </Stack>
         </Flex>
       </Box>
-
       <Nav />
     </Box>
   )
