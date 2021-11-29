@@ -10,7 +10,7 @@ const Nav = () => {
 
   const fill = useColorModeValue("gray.800", "gray.500")
   const color = useColorModeValue("gray.800", "gray.400")
-  const backgroudColor = useColorModeValue(["white", "gray.50"], ["gray.800"])
+  const backgroudColor = useColorModeValue(["white", "gray.50"], ["gray.900"])
 
   return (
     <Flex
