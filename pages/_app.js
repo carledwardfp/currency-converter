@@ -3,6 +3,7 @@ import { ChakraProvider, createStandaloneToast } from "@chakra-ui/react"
 import { SWRConfig } from "swr"
 import { api } from "services/api"
 import theme from "styles/theme"
+import "currency-flags/dist/currency-flags.min.css"
 
 function MyApp({ Component, pageProps }) {
   const toast = createStandaloneToast()
