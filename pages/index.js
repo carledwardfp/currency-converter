@@ -218,7 +218,7 @@ export default function Home({ currencies, defaultCurrencyCode }) {
                   </StatLabel>
                 </Skeleton>
                 <Skeleton isLoaded={firstCurrencyData}>
-                  <StatNumber fontSize="3xl" mb={"2px"}>
+                  <StatNumber fontSize={["2xl", "3xl"]} mb={"2px"}>
                     {secondCurrencyValue} {secondCurrency.label}{" "}
                     <span
                       className={`currency-flag currency-flag-${secondCurrency.value}`}
